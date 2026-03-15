@@ -2,26 +2,118 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 5%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 50% 8%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 50% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 100% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 60% 12%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 0 40% 15%;
+    --muted-foreground: 0 20% 60%;
+
+    --accent: 0 100% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 40% 20%;
+    --input: 0 40% 15%;
+    --ring: 0 100% 55%;
+
+    --radius: 0.75rem;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background-color: #0d0000;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0d0000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3d1515;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ff1a1a;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Red glow text effect */
+  .text-glow-red {
+    text-shadow: 0 0 20px rgba(255, 26, 26, 0.8), 0 0 40px rgba(255, 26, 26, 0.4);
+  }
+
+  .text-glow-white {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+
+  /* Glass card effect */
+  .glass-card {
+    background: rgba(26, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 26, 26, 0.15);
+  }
+
+  .glass-card-hover:hover {
+    border-color: rgba(255, 26, 26, 0.4);
+    box-shadow: 0 8px 32px rgba(255, 26, 26, 0.15);
+  }
+
+  /* Network node glow */
+  .node-glow {
+    box-shadow: 0 0 12px rgba(255, 26, 26, 0.6), 0 0 24px rgba(255, 26, 26, 0.3);
+  }
+}
+
+/* XP bar animation */
+@keyframes xp-fill {
+  from { width: var(--xp-from, 0%); }
+  to { width: var(--xp-to, 100%); }
+}
+
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(61, 21, 21, 0.3) 25%,
+    rgba(255, 26, 26, 0.1) 50%,
+    rgba(61, 21, 21, 0.3) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }

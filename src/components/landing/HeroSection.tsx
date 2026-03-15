@@ -1,0 +1,129 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowRight, Zap, Flame, Star } from "lucide-react";
+
+export function HeroSection() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/bg-hero.png')" }}
+      />
+
+      {/* Dark overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#0d0000]/70 to-[#0d0000]" />
+
+      {/* Animated red glow orb */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-red-900/10 blur-3xl pointer-events-none" />
+
+      {/* Content */}
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-800/50 bg-red-950/40 text-red-400 text-sm font-medium mb-8 backdrop-blur-sm"
+        >
+          <Zap className="w-4 h-4" />
+          <span>Gamified Dating Education</span>
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+        >
+          <span className="text-white">Level Up Your</span>
+          <br />
+          <span
+            className="text-transparent bg-clip-text"
+            style={{
+              backgroundImage: "linear-gradient(135deg, #ff4444 0%, #ff1a1a 50%, #cc0000 100%)",
+              filter: "drop-shadow(0 0 30px rgba(255,26,26,0.5))",
+            }}
+          >
+            Dating Life
+          </span>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed"
+        >
+          Master confidence, conversation, and connection through gamified courses.
+          Earn XP, unlock levels, and become the most attractive version of yourself.
+        </motion.p>
+
+        {/* Stats row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex items-center justify-center gap-8 mb-10 text-sm text-gray-400"
+        >
+          <div className="flex items-center gap-2">
+            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+            <span>4 Expert Courses</span>
+          </div>
+          <div className="w-px h-4 bg-gray-700" />
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-red-500" />
+            <span>20+ Lessons</span>
+          </div>
+          <div className="w-px h-4 bg-gray-700" />
+          <div className="flex items-center gap-2">
+            <Flame className="w-4 h-4 text-orange-500" />
+            <span>Daily Streaks</span>
+          </div>
+        </motion.div>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <Link
+            href="/signup"
+            className="group flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300"
+            style={{
+              background: "linear-gradient(135deg, #ff2a2a, #cc0000)",
+              boxShadow: "0 0 20px rgba(255,26,26,0.4), 0 4px 16px rgba(0,0,0,0.4)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                "0 0 30px rgba(255,26,26,0.7), 0 4px 20px rgba(0,0,0,0.5)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                "0 0 20px rgba(255,26,26,0.4), 0 4px 16px rgba(0,0,0,0.4)";
+            }}
+          >
+            Start for Free
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+
+          <Link
+            href="/login"
+            className="flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-gray-300 border border-red-900/40 bg-red-950/20 hover:border-red-700/60 hover:text-white hover:bg-red-950/40 transition-all duration-300 backdrop-blur-sm"
+          >
+            Sign In
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* Bottom fade to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0d0000] to-transparent" />
+    </section>
+  );
+}
