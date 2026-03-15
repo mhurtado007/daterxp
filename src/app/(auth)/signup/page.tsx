@@ -10,7 +10,6 @@ import { Eye, EyeOff, Loader2, Zap } from "lucide-react";
 
 export default function SignupPage() {
   const router = useRouter();
-  const supabase = createClient();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -30,6 +29,7 @@ export default function SignupPage() {
       return;
     }
 
+    const supabase = createClient();
     const { error } = await supabase.auth.signUp({
       email,
       password,

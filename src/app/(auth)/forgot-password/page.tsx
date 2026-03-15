@@ -8,7 +8,6 @@ import { createClient } from "@/lib/supabase/client";
 import { Loader2, ArrowLeft, CheckCircle } from "lucide-react";
 
 export default function ForgotPasswordPage() {
-  const supabase = createClient();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -19,6 +18,7 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setError(null);
 
+    const supabase = createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/callback?next=/profile`,
     });
