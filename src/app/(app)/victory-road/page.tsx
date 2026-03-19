@@ -464,7 +464,6 @@ function Phase1Content({
           style={{
             background: "rgba(255,255,255,0.04)",
             border: `1px solid ${color}33`,
-            focusBorderColor: color,
           }}
         />
       </div>
