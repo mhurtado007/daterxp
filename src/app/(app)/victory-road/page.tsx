@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
+import { awardVictoryPhaseXP } from "@/lib/actions/victoryRoad";
 import {
   Shield,
   Zap,
@@ -158,6 +159,7 @@ export default function VictoryRoadPage() {
     setXpBurst({ amount: xpGained, id: Date.now() });
     setTimeout(() => setXpBurst(null), 2000);
     save({ phase_states: newPhaseStates, total_xp: newXP, active_phase: newActivePhase });
+    awardVictoryPhaseXP(xpGained);
   }
 
   // Field-level save helpers
