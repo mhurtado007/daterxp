@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, Trophy, User } from "lucide-react";
+import { LayoutDashboard, BookOpen, User, Swords } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Home" },
+  { href: "/victory-road", icon: Swords, label: "Victory" },
   { href: "/courses", icon: BookOpen, label: "Courses" },
-  { href: "/leaderboard", icon: Trophy, label: "Ranks" },
   { href: "/profile", icon: User, label: "Profile" },
 ];
 

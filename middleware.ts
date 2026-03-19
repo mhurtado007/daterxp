@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Protect app routes
-  const appRoutes = ["/dashboard", "/courses", "/leaderboard", "/profile"];
+  const appRoutes = ["/dashboard", "/courses", "/victory-road", "/leaderboard", "/profile"];
   const isAppRoute = appRoutes.some((route) => pathname.startsWith(route));
 
   if (!hasSession && isAppRoute) {
