@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const hasSession = request.cookies
     .getAll()
     .some(
-      (c) => c.name.startsWith("sb-") && c.name.endsWith("-auth-token")
+      (c) => c.name.startsWith("sb-") && c.name.includes("-auth-token")
     );
 
   // Redirect authenticated users away from auth pages
