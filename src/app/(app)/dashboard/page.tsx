@@ -53,7 +53,7 @@ export default async function DashboardPage() {
       {/* Greeting */}
       <div>
         <h1 className="text-3xl font-bold text-white mb-1">
-          Hey, {displayName}
+          {displayName}
         </h1>
       </div>
 
