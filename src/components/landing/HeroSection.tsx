@@ -28,7 +28,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
         >
-          <span className="text-white">Level Up Your</span>
+          <span className="text-white">Win at</span>
           <br />
           <span
             className="text-transparent bg-clip-text"
@@ -37,7 +37,7 @@ export function HeroSection() {
               filter: "drop-shadow(0 0 30px rgba(255,26,26,0.5))",
             }}
           >
-            Dating Life
+            Dates
           </span>
         </motion.h1>
 
