@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Zap, Flame, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -21,17 +21,6 @@ export function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-800/50 bg-red-950/40 text-red-400 text-sm font-medium mb-8 backdrop-blur-sm"
-        >
-          <Zap className="w-4 h-4" />
-          <span>Gamified Dating Education</span>
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -62,29 +51,6 @@ export function HeroSection() {
           Master confidence, conversation, and connection through gamified courses.
           Earn XP, unlock levels, and become the most attractive version of yourself.
         </motion.p>
-
-        {/* Stats row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex items-center justify-center gap-8 mb-10 text-sm text-gray-400"
-        >
-          <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <span>4 Expert Courses</span>
-          </div>
-          <div className="w-px h-4 bg-gray-700" />
-          <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-red-500" />
-            <span>20+ Lessons</span>
-          </div>
-          <div className="w-px h-4 bg-gray-700" />
-          <div className="flex items-center gap-2">
-            <Flame className="w-4 h-4 text-orange-500" />
-            <span>Daily Streaks</span>
-          </div>
-        </motion.div>
 
         {/* CTAs */}
         <motion.div
