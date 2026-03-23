@@ -63,7 +63,6 @@ export default function SignupPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Create Your Account</h1>
-          <p className="text-gray-400 text-sm">Start your journey to dating mastery</p>
         </div>
 
         {error && (
