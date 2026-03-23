@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, User, LogOut, Zap, Swords } from "lucide-react";
+import { LayoutDashboard, BookOpen, User, LogOut, Swords } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -29,15 +29,6 @@ export function Sidebar() {
     <aside className="hidden md:flex flex-col w-64 h-screen sticky top-0 bg-[#0d0000] border-r border-red-900/20 p-6">
       {/* Logo */}
       <Link href="/dashboard" className="flex items-center gap-2 mb-10">
-        <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{
-            background: "linear-gradient(135deg, #ff2a2a, #cc0000)",
-            boxShadow: "0 0 12px rgba(255,26,26,0.4)",
-          }}
-        >
-          <Zap className="w-5 h-5 text-white" />
-        </div>
         <span className="text-xl font-bold text-white">
           Dater<span className="text-red-500">XP</span>
         </span>
