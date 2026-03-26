@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import type Stripe from "stripe";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
