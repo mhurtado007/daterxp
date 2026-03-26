@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, LogOut, Swords } from "lucide-react";
+import { LayoutDashboard, BookOpen, LogOut, Swords, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -22,6 +22,12 @@ export function Sidebar() {
     await supabase.auth.signOut();
     router.push("/");
     router.refresh();
+  }
+
+  async function handleBilling() {
+    const res = await fetch("/api/stripe/portal", { method: "POST" });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url;
   }
 
   return (
@@ -57,6 +63,15 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      {/* Billing */}
+      <button
+        onClick={handleBilling}
+        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-500 hover:text-gray-200 hover:bg-red-950/20 transition-all duration-200 mb-1"
+      >
+        <CreditCard className="w-5 h-5" />
+        Billing
+      </button>
 
       {/* Logout */}
       <button
