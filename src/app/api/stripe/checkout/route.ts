@@ -33,7 +33,7 @@ export async function POST() {
       customer: sub?.stripe_customer_id || undefined,
       customer_email: !sub?.stripe_customer_id ? user.email! : undefined,
       client_reference_id: user.id,
-      success_url: `${siteUrl}/dashboard?checkout=success`,
+      success_url: `${siteUrl}/checkout/success`,
       cancel_url: `${siteUrl}/subscribe`,
     });
 
