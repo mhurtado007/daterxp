@@ -2,7 +2,8 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse, type NextRequest } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createServerClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 
 export async function POST(request: NextRequest) {
   const { session_id } = await request.json();
@@ -11,14 +12,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Missing session_id" }, { status: 400 });
   }
 
-  const supabase = await createClient();
+  // Use cookie-based client only to verify the authenticated user
+  const authClient = await createServerClient();
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await authClient.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  // Use service role client to bypass RLS for the upsert
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
 
   try {
     const session = await getStripe().checkout.sessions.retrieve(session_id);
