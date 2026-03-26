@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
   switch (event.type) {
     case "checkout.session.completed": {
-      const session = event.data.object as Stripe.CheckoutSession;
+      const session = event.data.object as Stripe.Checkout.Session;
       if (session.mode !== "subscription") break;
 
       const userId = session.client_reference_id;
@@ -46,10 +46,6 @@ export async function POST(request: NextRequest) {
           stripe_subscription_id: subscriptionId,
           status: subscription.status,
           price_id: subscription.items.data[0].price.id,
-          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-          trial_end: subscription.trial_end
-            ? new Date(subscription.trial_end * 1000).toISOString()
-            : null,
           updated_at: new Date().toISOString(),
         },
         { onConflict: "user_id" }
@@ -66,13 +62,26 @@ export async function POST(request: NextRequest) {
         .from("subscriptions")
         .update({
           status: subscription.status,
-          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-          trial_end: subscription.trial_end
-            ? new Date(subscription.trial_end * 1000).toISOString()
-            : null,
           updated_at: new Date().toISOString(),
         })
         .eq("stripe_subscription_id", subscription.id);
+
+      break;
+    }
+
+    case "invoice.payment_failed": {
+      const invoice = event.data.object as Stripe.Invoice;
+      const subscriptionId = invoice.subscription as string;
+
+      if (!subscriptionId) break;
+
+      await supabase
+        .from("subscriptions")
+        .update({
+          status: "past_due",
+          updated_at: new Date().toISOString(),
+        })
+        .eq("stripe_subscription_id", subscriptionId);
 
       break;
     }
