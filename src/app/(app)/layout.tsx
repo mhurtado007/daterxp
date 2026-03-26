@@ -3,6 +3,7 @@ import { TopBar } from "@/components/layout/TopBar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { getSubscriptionStatus, isSubscriptionActive } from "@/lib/subscription";
 
 export default async function AppLayout({
   children,
@@ -15,6 +16,9 @@ export default async function AppLayout({
   } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  const sub = await getSubscriptionStatus();
+  if (!isSubscriptionActive(sub?.status)) redirect("/subscribe");
 
   return (
     <div className="flex min-h-screen bg-[#0d0000]">
