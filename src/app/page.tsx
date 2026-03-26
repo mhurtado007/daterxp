@@ -17,7 +17,7 @@ export default function LandingPage() {
             Sign In
           </Link>
           <Link
-            href="/signup"
+            href="/subscribe"
             className="px-4 py-2 rounded-lg text-sm font-medium text-white transition-all duration-200"
             style={{
               background: "linear-gradient(135deg, #ff2a2a, #cc0000)",

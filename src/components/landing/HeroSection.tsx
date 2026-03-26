@@ -59,7 +59,7 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
-            href="/signup"
+            href="/subscribe"
             className="group flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300"
             style={{
               background: "linear-gradient(135deg, #ff2a2a, #cc0000)",
