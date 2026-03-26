@@ -9,7 +9,6 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 function SignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/subscribe";
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -49,7 +48,16 @@ function SignupForm() {
         return;
       }
 
-      router.push(redirectTo);
+      const sessionId = searchParams.get("session_id");
+      if (sessionId) {
+        await fetch("/api/stripe/link", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_id: sessionId }),
+        });
+      }
+
+      router.push("/dashboard");
       router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");
@@ -147,7 +155,10 @@ function SignupForm() {
 
         <div className="mt-5 text-center text-sm text-gray-500">
           Already have an account?{" "}
-          <Link href="/login" className="text-red-400 hover:text-red-300 font-medium transition-colors">
+          <Link
+            href={searchParams.get("session_id") ? `/login?session_id=${searchParams.get("session_id")}` : "/login"}
+            className="text-red-400 hover:text-red-300 font-medium transition-colors"
+          >
             Sign in
           </Link>
         </div>

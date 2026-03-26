@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Check, Loader2 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 
 const features = [
   "4 expert courses with 20+ lessons",
@@ -20,22 +18,8 @@ const features = [
 export default function SubscribePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setIsLoggedIn(!!user);
-    });
-  }, []);
 
   async function handleCheckout() {
-    if (!isLoggedIn) {
-      router.push("/signup?redirect=/subscribe");
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
@@ -54,13 +38,6 @@ export default function SubscribePage() {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setLoading(false);
     }
-  }
-
-  async function handleSignOut() {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/");
-    router.refresh();
   }
 
   return (
@@ -112,7 +89,7 @@ export default function SubscribePage() {
         {/* CTA */}
         <button
           onClick={handleCheckout}
-          disabled={loading || isLoggedIn === null}
+          disabled={loading}
           className="w-full py-4 rounded-xl font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #ff4444 0%, #cc0000 100%)",
@@ -134,22 +111,12 @@ export default function SubscribePage() {
         </p>
       </div>
 
-      {/* Sign out / sign in */}
-      {isLoggedIn ? (
-        <button
-          onClick={handleSignOut}
-          className="mt-8 text-gray-600 text-sm hover:text-gray-400 transition-colors"
-        >
-          Sign out
-        </button>
-      ) : (
-        <p className="mt-8 text-gray-600 text-sm">
-          Already have an account?{" "}
-          <Link href="/login" className="text-red-500 hover:text-red-400">
-            Sign in
-          </Link>
-        </p>
-      )}
+      <p className="mt-8 text-gray-600 text-sm">
+        Already have an account?{" "}
+        <Link href="/login" className="text-red-500 hover:text-red-400">
+          Sign in
+        </Link>
+      </p>
     </div>
   );
 }

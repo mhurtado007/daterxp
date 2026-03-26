@@ -1,15 +1,14 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,13 +30,21 @@ export default function LoginPage() {
       return;
     }
 
+    const sessionId = searchParams.get("session_id");
+    if (sessionId) {
+      await fetch("/api/stripe/link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id: sessionId }),
+      });
+    }
+
     router.push("/dashboard");
     router.refresh();
   }
 
   return (
     <div className="w-full max-w-md">
-      {/* Card */}
       <div className="glass-card rounded-2xl p-8">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
@@ -111,11 +118,22 @@ export default function LoginPage() {
 
         <div className="mt-6 text-center text-sm text-gray-500">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-red-400 hover:text-red-300 font-medium transition-colors">
+          <Link
+            href={searchParams.get("session_id") ? `/signup?session_id=${searchParams.get("session_id")}` : "/signup"}
+            className="text-red-400 hover:text-red-300 font-medium transition-colors"
+          >
             Create one
           </Link>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
