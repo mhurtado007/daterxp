@@ -4,12 +4,14 @@ export const dynamic = "force-dynamic";
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/subscribe";
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -49,7 +51,7 @@ export default function SignupPage() {
         return;
       }
 
-      router.push("/dashboard");
+      router.push(redirectTo);
       router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");
