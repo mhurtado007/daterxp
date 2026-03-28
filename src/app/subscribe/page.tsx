@@ -9,10 +9,6 @@ const features = [
   "Confidence & mindset training",
   "Conversation skills mastery",
   "First date playbook",
-  "Body language & attraction",
-  "XP system, levels & streaks",
-  "Victory Road challenges",
-  "Leaderboard & badges",
 ];
 
 export default function SubscribePage() {
