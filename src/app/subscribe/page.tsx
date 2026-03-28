@@ -5,10 +5,11 @@ import Link from "next/link";
 import { Check, Loader2 } from "lucide-react";
 
 const features = [
-  "4 expert courses with 20+ lessons",
+  "Monthly practical courses",
   "Confidence & mindset training",
   "Conversation skills mastery",
-  "First date playbook",
+  "Simplified Dating Roadmap",
+  "No more overthinking",
 ];
 
 export default function SubscribePage() {
