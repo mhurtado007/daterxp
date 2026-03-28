@@ -13,11 +13,24 @@ import {
   ChevronDown,
   Lock,
   Flame,
+  RotateCcw,
+  ChevronUp,
 } from "lucide-react";
 
 type PhaseState = {
   completed: boolean;
   unlocked: boolean;
+};
+
+type HistoryEntry = {
+  id: string;
+  completed_at: string;
+  total_xp: number;
+  phase_states: PhaseState[];
+  mission: string | null;
+  went_right: string | null;
+  went_wrong: string | null;
+  had_good_time: boolean | null;
 };
 
 const PHASES = [
@@ -78,6 +91,9 @@ export default function VictoryRoadPage() {
   const [activePhase, setActivePhase] = useState<number | null>(1);
   const [totalXP, setTotalXP] = useState(0);
   const [xpBurst, setXpBurst] = useState<{ amount: number; id: number } | null>(null);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [showRestartConfirm, setShowRestartConfirm] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   // Phase 1
   const [mission, setMission] = useState("");
@@ -96,6 +112,18 @@ export default function VictoryRoadPage() {
   const [wentRight, setWentRight] = useState("");
   const [wentWrong, setWentWrong] = useState("");
   const [wantsFollowUp, setWantsFollowUp] = useState<boolean | null>(null);
+
+  const loadHistory = useCallback(async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const { data } = await supabase
+      .from("victory_road_history")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("completed_at", { ascending: false })
+      .limit(20);
+    if (data) setHistory(data);
+  }, [supabase]);
 
   // Load from Supabase on mount
   useEffect(() => {
@@ -122,6 +150,7 @@ export default function VictoryRoadPage() {
         setWantsFollowUp(data.wants_follow_up ?? null);
       }
       setLoading(false);
+      loadHistory();
     }
     load();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,6 +171,59 @@ export default function VictoryRoadPage() {
   function scheduleSave(patch: Record<string, unknown>) {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => save(patch), 800);
+  }
+
+  async function restartRoadmap() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    if (phaseStates.some((p) => p.completed)) {
+      await supabase.from("victory_road_history").insert({
+        user_id: user.id,
+        total_xp: totalXP,
+        phase_states: phaseStates,
+        mission: mission || null,
+        went_right: wentRight || null,
+        went_wrong: wentWrong || null,
+        had_good_time: hadGoodTime,
+      });
+    }
+
+    const reset = {
+      phase_states: DEFAULT_PHASE_STATES,
+      active_phase: 1,
+      total_xp: 0,
+      mission: "",
+      contingency: "",
+      checklist: [false, false, false, false],
+      phase2_ratings: [null, null, null, null, null],
+      next_step: "",
+      had_good_time: null,
+      went_right: "",
+      went_wrong: "",
+      wants_follow_up: null,
+    };
+
+    await supabase.from("victory_road_sessions").upsert(
+      { user_id: user.id, ...reset },
+      { onConflict: "user_id" }
+    );
+
+    setPhaseStates(DEFAULT_PHASE_STATES);
+    setActivePhase(1);
+    setTotalXP(0);
+    setMission("");
+    setContingency("");
+    setChecklist([false, false, false, false]);
+    setPhase2Ratings([null, null, null, null, null]);
+    setPhase2CardIndex(0);
+    setNextStep("");
+    setHadGoodTime(null);
+    setWentRight("");
+    setWentWrong("");
+    setWantsFollowUp(null);
+    setShowRestartConfirm(false);
+    loadHistory();
   }
 
   function completePhase(phaseIndex: number) {
@@ -198,6 +280,40 @@ export default function VictoryRoadPage() {
           <Flame className="w-4 h-4 text-red-500" />
           <span className="text-red-400">{totalXP} XP earned</span>
         </div>
+
+        {/* Restart button */}
+        {phaseStates.some((p) => p.completed) && (
+          <div className="mt-4">
+            {showRestartConfirm ? (
+              <div className="flex items-center justify-center gap-3">
+                <span className="text-xs text-gray-400">Save progress &amp; start fresh?</span>
+                <button
+                  onClick={restartRoadmap}
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white"
+                  style={{ background: "rgba(255,42,42,0.3)", border: "1px solid rgba(255,42,42,0.5)" }}
+                >
+                  Yes, restart
+                </button>
+                <button
+                  onClick={() => setShowRestartConfirm(false)}
+                  className="px-3 py-1.5 rounded-lg text-xs text-gray-500"
+                  style={{ border: "1px solid rgba(255,255,255,0.1)" }}
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowRestartConfirm(true)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium text-gray-500 hover:text-gray-300 transition-colors"
+                style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+              >
+                <RotateCcw className="w-3 h-3" />
+                Start new roadmap
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* XP Burst Animation */}
@@ -413,10 +529,102 @@ export default function VictoryRoadPage() {
               <div className="text-5xl mb-3">🏆</div>
               <h2 className="text-2xl font-black text-white mb-1">Victory Achieved!</h2>
               <p className="text-gray-400 text-sm mb-4">You crushed all 4 phases</p>
-              <div className="text-3xl font-black text-yellow-400">+{totalXP} XP Total</div>
+              <div className="text-3xl font-black text-yellow-400 mb-6">+{totalXP} XP Total</div>
+              {showRestartConfirm ? (
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-xs text-gray-400">Save &amp; start a new roadmap?</span>
+                  <button
+                    onClick={restartRoadmap}
+                    className="px-4 py-2 rounded-xl text-sm font-semibold text-white"
+                    style={{ background: "rgba(255,42,42,0.4)", border: "1px solid rgba(255,42,42,0.6)" }}
+                  >
+                    Yes, restart
+                  </button>
+                  <button
+                    onClick={() => setShowRestartConfirm(false)}
+                    className="px-4 py-2 rounded-xl text-sm text-gray-500"
+                    style={{ border: "1px solid rgba(255,255,255,0.1)" }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowRestartConfirm(true)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all"
+                  style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)" }}
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  Start new roadmap
+                </button>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Past Roadmaps */}
+        {history.length > 0 && (
+          <div className="mt-8">
+            <button
+              onClick={() => setShowHistory(!showHistory)}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-gray-200 transition-colors"
+              style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}
+            >
+              <span>Past Roadmaps ({history.length})</span>
+              {showHistory ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+
+            <AnimatePresence>
+              {showHistory && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden space-y-3 mt-3"
+                >
+                  {history.map((entry) => {
+                    const completedPhases = (entry.phase_states as PhaseState[])?.filter((p) => p.completed).length ?? 0;
+                    const date = new Date(entry.completed_at).toLocaleDateString("en-US", {
+                      month: "short", day: "numeric", year: "numeric",
+                    });
+                    return (
+                      <div
+                        key={entry.id}
+                        className="rounded-xl p-4"
+                        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-gray-500">{date}</span>
+                          <span className="text-xs font-bold text-yellow-500">+{entry.total_xp} XP</span>
+                        </div>
+                        <div className="flex items-center gap-1 mb-2">
+                          {PHASES.map((phase, i) => {
+                            const done = (entry.phase_states as PhaseState[])?.[i]?.completed;
+                            return (
+                              <div
+                                key={phase.id}
+                                className="flex-1 h-1.5 rounded-full"
+                                style={{ background: done ? phase.color : "rgba(255,255,255,0.08)" }}
+                              />
+                            );
+                          })}
+                        </div>
+                        <p className="text-xs text-gray-600">{completedPhases}/4 phases completed</p>
+                        {entry.mission && (
+                          <p className="text-xs text-gray-500 mt-1 truncate">🎯 {entry.mission}</p>
+                        )}
+                        {entry.went_right && (
+                          <p className="text-xs text-gray-500 mt-0.5 truncate">✅ {entry.went_right}</p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </div>
   );
