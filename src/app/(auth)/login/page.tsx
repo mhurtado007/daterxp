@@ -39,7 +39,10 @@ function LoginForm() {
       });
     }
 
-    router.push("/dashboard");
+    const adminRes = await fetch("/api/admin/check");
+    const { isAdmin } = await adminRes.json();
+
+    router.push(isAdmin ? "/admin" : "/dashboard");
     router.refresh();
   }
 
