@@ -21,7 +21,12 @@ async function getAdminData() {
 
   const { data: users } = await supabase.auth.admin.listUsers();
 
-  return { subscriptions: subscriptions ?? [], profiles: profiles ?? [], users: users?.users ?? [] };
+  const { data: feedback } = await supabase
+    .from("feedback")
+    .select("id, user_id, message, created_at")
+    .order("created_at", { ascending: false });
+
+  return { subscriptions: subscriptions ?? [], profiles: profiles ?? [], users: users?.users ?? [], feedback: feedback ?? [] };
 }
 
 export default async function AdminPage() {
@@ -29,7 +34,7 @@ export default async function AdminPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { subscriptions, profiles, users } = await getAdminData();
+  const { subscriptions, profiles, users, feedback } = await getAdminData();
 
   const total = subscriptions.length;
   const trialing = subscriptions.filter((s) => s.status === "trialing").length;
@@ -127,6 +132,37 @@ export default async function AdminPage() {
                     <td colSpan={5} className="px-6 py-8 text-center text-gray-600">
                       No subscribers yet
                     </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {/* Feedback Table */}
+        <div className="rounded-2xl border border-red-900/20 bg-[#130000] overflow-hidden mt-8">
+          <div className="px-6 py-4 border-b border-red-900/20">
+            <h2 className="text-white font-semibold">Feedback <span className="text-gray-600 font-normal text-sm ml-1">({feedback.length})</span></h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-red-900/20">
+                  <th className="text-left px-6 py-3 text-gray-500 font-medium">User</th>
+                  <th className="text-left px-6 py-3 text-gray-500 font-medium">Message</th>
+                  <th className="text-left px-6 py-3 text-gray-500 font-medium">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feedback.map((f) => (
+                  <tr key={f.id} className="border-b border-red-900/10 hover:bg-red-950/10 transition-colors">
+                    <td className="px-6 py-4 text-gray-400 whitespace-nowrap">{f.user_id ? (userMap[f.user_id] ?? "—") : "—"}</td>
+                    <td className="px-6 py-4 text-gray-300">{f.message}</td>
+                    <td className="px-6 py-4 text-gray-500 whitespace-nowrap">{new Date(f.created_at).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+                {feedback.length === 0 && (
+                  <tr>
+                    <td colSpan={3} className="px-6 py-8 text-center text-gray-600">No feedback yet</td>
                   </tr>
                 )}
               </tbody>

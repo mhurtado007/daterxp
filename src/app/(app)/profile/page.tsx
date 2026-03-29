@@ -5,6 +5,7 @@ import { StreakCounter } from "@/components/gamification/StreakCounter";
 import { logout } from "@/lib/actions/auth";
 import { formatXP } from "@/lib/utils";
 import { LogOut } from "lucide-react";
+import { FeedbackForm } from "@/components/FeedbackForm";
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -104,6 +105,9 @@ export default async function ProfilePage() {
           </div>
         )}
       </div>
+
+      {/* Feedback */}
+      <FeedbackForm />
 
       {/* Sign out */}
       <form action={logout}>
