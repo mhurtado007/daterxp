@@ -48,7 +48,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          Stop overthinking. Enjoy your dates. Find your dream woman.
+          Proven guidance to level up after the first date.
         </motion.p>
 
         {/* CTAs */}
