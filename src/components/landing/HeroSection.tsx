@@ -28,7 +28,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
         >
-          <span className="text-white">Win at</span>
+          <span className="text-white">Get The</span>
           <br />
           <span
             className="text-transparent bg-clip-text"
@@ -37,7 +37,7 @@ export function HeroSection() {
               filter: "drop-shadow(0 0 30px rgba(255,26,26,0.5))",
             }}
           >
-            Dates
+            Second Date
           </span>
         </motion.h1>
 
@@ -74,15 +74,8 @@ export function HeroSection() {
                 "0 0 20px rgba(255,26,26,0.4), 0 4px 16px rgba(0,0,0,0.4)";
             }}
           >
-            Start for Free
+            Get Started
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-
-          <Link
-            href="/login"
-            className="flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-gray-300 border border-red-900/40 bg-red-950/20 hover:border-red-700/60 hover:text-white hover:bg-red-950/40 transition-all duration-300 backdrop-blur-sm"
-          >
-            Sign In
           </Link>
         </motion.div>
       </div>
