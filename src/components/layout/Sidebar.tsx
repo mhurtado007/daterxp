@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, LogOut, Flame, CreditCard } from "lucide-react";
+import { LayoutDashboard, BookOpen, LogOut, Flame, CreditCard, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/victory-road", icon: Flame, label: "Victory Road" },
+  { href: "/approach-warm-up", icon: Target, label: "Approach Warm-Up" },
   { href: "/courses", icon: BookOpen, label: "Courses" },
 ];
 
