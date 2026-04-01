@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
 import { awardVictoryPhaseXP } from "@/lib/actions/victoryRoad";
 import {
   Zap,
@@ -105,7 +104,6 @@ const DEFAULT_SESSION: SessionState = {
 };
 
 export default function ApproachWarmUpPage() {
-  const supabase = createClient();
   const [loading, setLoading] = useState(true);
 
   const [phaseStates, setPhaseStates] = useState<PhaseState[]>(DEFAULT_PHASE_STATES);
