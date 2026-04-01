@@ -37,7 +37,7 @@ export function HeroSection() {
               filter: "drop-shadow(0 0 30px rgba(255,26,26,0.5))",
             }}
           >
-            Second Date
+            First Date
           </span>
         </motion.h1>
 
