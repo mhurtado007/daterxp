@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, Swords, CreditCard } from "lucide-react";
+import { LayoutDashboard, BookOpen, Flame, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Home" },
-  { href: "/victory-road", icon: Swords, label: "Roadmap" },
+  { href: "/victory-road", icon: Flame, label: "Roadmap" },
   { href: "/courses", icon: BookOpen, label: "Courses" },
 ];
 
