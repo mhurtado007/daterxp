@@ -37,7 +37,6 @@ const PHASES = [
   {
     id: 1,
     title: "Preparation",
-    emoji: "🛡️",
     icon: Shield,
     xp: 50,
     color: "#ff2a2a",
@@ -47,7 +46,6 @@ const PHASES = [
   {
     id: 2,
     title: "The Date",
-    emoji: "⚡",
     icon: Zap,
     xp: 100,
     color: "#ff6b00",
@@ -57,7 +55,6 @@ const PHASES = [
   {
     id: 3,
     title: "After Date",
-    emoji: "📍",
     icon: MapPin,
     xp: 75,
     color: "#a855f7",
@@ -67,7 +64,6 @@ const PHASES = [
   {
     id: 4,
     title: "Reflection",
-    emoji: "⭐",
     icon: Star,
     xp: 125,
     color: "#f59e0b",
@@ -407,7 +403,7 @@ export default function VictoryRoadPage() {
                           ) : !state.unlocked ? (
                             <Lock className="w-6 h-6 text-gray-600" />
                           ) : (
-                            <span>{phase.emoji}</span>
+                            <phase.icon className="w-6 h-6" style={{ color: phase.color }} />
                           )}
                         </div>
 
@@ -526,7 +522,6 @@ export default function VictoryRoadPage() {
                 boxShadow: "0 0 40px rgba(245,158,11,0.2)",
               }}
             >
-              <div className="text-5xl mb-3">🏆</div>
               <h2 className="text-2xl font-black text-white mb-1">Victory Achieved!</h2>
               <p className="text-gray-400 text-sm mb-4">You crushed all 4 phases</p>
               <div className="text-3xl font-black text-yellow-400 mb-6">+{totalXP} XP Total</div>
@@ -612,10 +607,10 @@ export default function VictoryRoadPage() {
                         </div>
                         <p className="text-xs text-gray-600">{completedPhases}/4 phases completed</p>
                         {entry.mission && (
-                          <p className="text-xs text-gray-500 mt-1 truncate">🎯 {entry.mission}</p>
+                          <p className="text-xs text-gray-500 mt-1 truncate">{entry.mission}</p>
                         )}
                         {entry.went_right && (
-                          <p className="text-xs text-gray-500 mt-0.5 truncate">✅ {entry.went_right}</p>
+                          <p className="text-xs text-gray-500 mt-0.5 truncate">{entry.went_right}</p>
                         )}
                       </div>
                     );
@@ -657,13 +652,13 @@ function Phase1Content({
         className="rounded-xl px-4 py-3 text-center font-semibold text-white italic"
         style={{ background: `${color}22`, border: `1px solid ${color}33` }}
       >
-        💭 &ldquo;I&apos;m going to have a great time!&rdquo;
+        &ldquo;I&apos;m going to have a great time!&rdquo;
       </div>
 
       {/* Mission */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-          🎯 Mission — What is my goal for today?
+          Mission — What is my goal for today?
         </label>
         <textarea
           value={mission}
@@ -681,7 +676,7 @@ function Phase1Content({
       {/* Checklist */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-          ✅ Pre-Date Checklist
+          Pre-Date Checklist
         </label>
         <div className="space-y-2">
           {CHECKLIST_ITEMS.map((item, i) => (
@@ -718,7 +713,7 @@ function Phase1Content({
       {/* Contingency */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-          🔄 Contingency — How will I respond if she flakes?
+          Contingency — How will I respond if she flakes?
         </label>
         <textarea
           value={contingency}
@@ -744,7 +739,6 @@ const PHASE2_QUIZ = [
   {
     category: "Communication",
     skill: "Silence",
-    emoji: "🤫",
     teach: "Confident men are comfortable with silence. A pause isn't a problem — it's power. Let her fill it.",
     scenario: "There's a 5-second pause in conversation. What's the right move?",
     options: [
@@ -759,7 +753,6 @@ const PHASE2_QUIZ = [
   {
     category: "Communication",
     skill: "Listening",
-    emoji: "👂",
     teach: "Most guys wait for their turn to talk. You actually listen — and it's magnetic.",
     scenario: "She mentions her sister just got married and she has mixed feelings about it. You:",
     options: [
@@ -774,7 +767,6 @@ const PHASE2_QUIZ = [
   {
     category: "Dynamics",
     skill: "Awareness",
-    emoji: "👁️",
     teach: "Her signals are louder than her words. Learn to read the room.",
     scenario: "She's laughing, leaning toward you, and touching her hair when you speak. This means:",
     options: [
@@ -789,7 +781,6 @@ const PHASE2_QUIZ = [
   {
     category: "Dynamics",
     skill: "Escalation",
-    emoji: "🔥",
     teach: "Escalation builds tension. Slow and calibrated beats fast and clumsy every time.",
     scenario: "You want to begin physical escalation. The best first move is:",
     options: [
@@ -804,7 +795,6 @@ const PHASE2_QUIZ = [
   {
     category: "Dynamics",
     skill: "Leading",
-    emoji: "🧭",
     teach: "She wants you to lead. Indecision is the mood killer — make the call.",
     scenario: "The first spot is winding down. She asks what you want to do next. You say:",
     options: [
@@ -892,14 +882,14 @@ function Phase2Content({
             }}
           >
             <div className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color }}>
-              {q.category} — {q.skill} {q.emoji}
+              {q.category} — {q.skill}
             </div>
             <p className="text-sm text-gray-300 leading-relaxed">{q.teach}</p>
           </div>
 
           {/* Question */}
           <div className="px-1">
-            <p className="text-sm font-bold text-white mb-3">🎯 {q.scenario}</p>
+            <p className="text-sm font-bold text-white mb-3">{q.scenario}</p>
             <div className="space-y-2">
               {q.options.map((opt, i) => {
                 const isSelected = selected === i;
@@ -1004,7 +994,6 @@ function Phase2Content({
 
 const PHASE3_QUIZ = [
   {
-    emoji: "🚶",
     scenario: "The date was great. You're saying goodbye outside. What's the highest-value next move?",
     options: [
       "Tell her you'll text her and head home",
@@ -1016,7 +1005,6 @@ const PHASE3_QUIZ = [
     explanation: "Suggesting a specific second location keeps momentum without coming off as desperate. Vague 'want to keep hanging?' signals indecision. Be specific and lead.",
   },
   {
-    emoji: "🏠",
     scenario: "She invites you up to her place. What's the right mindset going in?",
     options: [
       "Rush in before she changes her mind — don't overthink it",
@@ -1028,7 +1016,6 @@ const PHASE3_QUIZ = [
     explanation: "Calm and present is the move. Excitement signals neediness. Nervousness signals inexperience. She invited you — act like it's a natural outcome, not a lottery win.",
   },
   {
-    emoji: "🚗",
     scenario: "You're heading home alone. The date went well. When do you text her?",
     options: [
       "Immediately — strike while the iron is hot",
@@ -1100,7 +1087,7 @@ function Phase3Content({
           className="space-y-3"
         >
           <p className="text-sm font-bold text-white">
-            {q.emoji} Scenario {qIndex + 1}: {q.scenario}
+            Scenario {qIndex + 1}: {q.scenario}
           </p>
 
           <div className="space-y-2">
@@ -1217,10 +1204,10 @@ function Phase4Content({
       {/* Did you have a good time */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-          😊 Did you have a good time?
+          Did you have a good time?
         </label>
         <div className="flex gap-3">
-          {[{ v: true, label: "Yes 🔥" }, { v: false, label: "Not really" }].map(({ v, label }) => (
+          {[{ v: true, label: "Yes" }, { v: false, label: "Not really" }].map(({ v, label }) => (
             <button
               key={String(v)}
               onClick={() => setHadGoodTime(v)}
@@ -1240,7 +1227,7 @@ function Phase4Content({
       {/* What went right */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-          ✅ What went right?
+          What went right?
         </label>
         <textarea
           value={wentRight}
@@ -1255,7 +1242,7 @@ function Phase4Content({
       {/* What went wrong */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-          ⚠️ What went wrong?
+          What went wrong?
         </label>
         <textarea
           value={wentWrong}
@@ -1270,7 +1257,7 @@ function Phase4Content({
       {/* Follow up */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-          🔁 Do YOU want a follow-up date with her?
+          Do YOU want a follow-up date with her?
         </label>
         <div className="flex gap-3">
           {[{ v: true, label: "Yes 💯" }, { v: false, label: "No thanks" }].map(({ v, label }) => (
