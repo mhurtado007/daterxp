@@ -684,7 +684,7 @@ function Phase1Content({
       {/* Contingency */}
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
-          Contingency — How will I respond if she flakes?
+          Contingency — How will I respond if I get rejected, she ignores me, or if I get too nervous?
         </label>
         <textarea
           value={contingency}
