@@ -5,11 +5,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "DaterXP - Win at Dates",
+  title: "DaterXP - Get The First Date",
   description:
     "Gamified dating courses to help you master confidence, conversation, and connection. Earn XP, unlock levels, and become the best version of yourself.",
   openGraph: {
-    title: "DaterXP - Win at Dates",
+    title: "DaterXP - Get The First Date",
     description: "Gamified dating education platform",
     type: "website",
   },
