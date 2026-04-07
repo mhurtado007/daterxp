@@ -49,13 +49,6 @@ export default function SubscribePage() {
         className="w-full max-w-md rounded-2xl border border-red-900/40 bg-[#130000] p-8"
         style={{ boxShadow: "0 0 60px rgba(255,26,26,0.08)" }}
       >
-        {/* Badge */}
-        <div className="flex justify-center mb-6">
-          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-red-950/60 text-red-400 border border-red-900/40 uppercase tracking-widest">
-            3-Day Free Trial
-          </span>
-        </div>
-
         {/* Price */}
         <div className="text-center mb-8">
           <p className="text-gray-400 text-sm mb-2">Full access, cancel anytime</p>
@@ -63,9 +56,6 @@ export default function SubscribePage() {
             <span className="text-5xl font-bold text-white">$29</span>
             <span className="text-gray-400 text-lg mb-2">/month</span>
           </div>
-          <p className="text-gray-500 text-sm mt-2">
-            Free for 3 days, then $29/month
-          </p>
         </div>
 
         {/* Features */}
@@ -99,12 +89,12 @@ export default function SubscribePage() {
               Redirecting...
             </>
           ) : (
-            "Start Free Trial"
+            "Start Trial"
           )}
         </button>
 
         <p className="text-center text-gray-600 text-xs mt-4">
-          No charge for 3 days. Cancel before trial ends and you won&apos;t be billed.
+          Cancel anytime.
         </p>
       </div>
 
