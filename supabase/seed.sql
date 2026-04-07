@@ -115,7 +115,7 @@ INSERT INTO public.lessons (course_id, slug, title, description, order_index, xp
 '[
   {"type":"theory","heading":"Humor Is Not About Being Funny","body":"Trying to be funny kills humor. The most attractive version of humor is being playful and having a good time."},
   {"type":"theory","heading":"Three Humor Moves","body":"1. Exaggeration — take something small and make it absurd\n2. Misdirection — set up an obvious answer, deliver a surprising one\n3. Callback — reference something said earlier in the conversation\n\nNever punch down, never try too hard, and never over-explain the joke."},
-  {"type":"quiz","question":"Which type of humor is most attractive?","options":["Mean-spirited teasing","Self-deprecating humor that requires confidence","Shock humor","Repeating memes"],"correct":1,"explanation":"Self-deprecating humor signals confidence — you''re secure enough to laugh at yourself."},
+  {"type":"quiz","question":"Which type of humor is most attractive?","options":["Mean-spirited teasing","Exaggeration, Misdirection, Callback","Shock humor","Repeating memes"],"correct":1,"explanation":"Exaggeration, Misdirection, Callback signals confidence — you''re secure enough to have fun while keeping her on her toes."},
   {"type":"quiz","question":"What kills humor instantly?","options":["Being too quiet","Explaining the joke","Making eye contact","Using callbacks"],"correct":1},
   {"type":"exercise","prompt":"Think of one mildly embarrassing or funny thing that''s happened to you. Write it as a self-deprecating anecdote using one of the three humor moves.","placeholder":"Use exaggeration, misdirection, or a callback: When I tried to cook for a date, I somehow managed to..."}
 ]'),
