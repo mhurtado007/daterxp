@@ -9,7 +9,7 @@ const features = [
   "Confidence & mindset training",
   "Conversation skills mastery",
   "Simplified Dating Roadmap",
-  "No more overthinking",
+  "Learn to convert dates without overthinking",
 ];
 
 export default function SubscribePage() {
